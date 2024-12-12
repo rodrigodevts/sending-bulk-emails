@@ -1,10 +1,10 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
-type Tag = {
+export type ITag = {
 	title: string;
 } & Document;
 
-const TagSchema = new Schema<Tag>(
+const TagSchema = new Schema<ITag>(
 	{
 		title: {
 			type: String,
@@ -19,4 +19,4 @@ const TagSchema = new Schema<Tag>(
 	}
 );
 
-export default mongoose.model<Tag>('Tag', TagSchema);
+export default mongoose.model<ITag>('Tag', TagSchema);

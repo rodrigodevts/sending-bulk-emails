@@ -1,8 +1,9 @@
 import mongoose, { Document, Schema } from 'mongoose';
+import { ITag } from './Tag';
 
 type Contact = Document & {
 	email: string;
-	tags: any[];
+	tags: ITag[];
 };
 
 const ContactSchema = new Schema<Contact>(

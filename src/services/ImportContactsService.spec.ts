@@ -113,12 +113,12 @@ describe('MongoDB Connection', () => {
 			email: 'digoshames@gmail.com'
 		}).populate('tags').lean();
 
-		const normalizedTags = contacts[0].tags.map(tag => ({
-			title: tag.title,
+		const contactsTags = contacts[0].tags.map(item => ({
+			title: item.title
 		}));
-		
+
 		expect(contacts.length).toBe(1);
-		expect(normalizedTags).toEqual([
+		expect(contactsTags).toEqual([
 			expect.objectContaining({ title: 'iptu' }),
 			expect.objectContaining({ title: 'alerta' }),
 		])
