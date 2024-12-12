@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "build": "tsc",
-    "dev": "tsx watch --clear-screen=false ./src/server.ts",
+    "dev": "tsx watch ./src/server.ts",
     "docker:up": "docker run --name mongo-test -p 27017:27017 -d mongo",
     "docker:down": "docker stop mongo-test && docker rm mongo-test",
     "test": "jest"
@@ -31,6 +32,7 @@
     "typescript-eslint": "^8.17.0"
   },
   "dependencies": {
+    "@aws-sdk/client-ses": "^3.699.0",
     "@shelf/jest-mongodb": "^4.3.2",
     "csv-parse": "^5.6.0",
     "dotenv": "^16.4.7",
