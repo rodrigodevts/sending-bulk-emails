@@ -16,7 +16,7 @@ class ImportContactsService {
 			title: {
 				$in: tags,
 			}
-		}).exec();
+		});
 
 		const existentTagsTitles = existentTags.map(tag => tag.title);
 

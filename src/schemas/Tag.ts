@@ -4,7 +4,9 @@ export type ITag = {
 	title: string;
 } & Document;
 
-const TagSchema = new Schema<ITag>(
+export type TagModel = Document & ITag;
+
+const TagSchema = new Schema<TagModel>(
 	{
 		title: {
 			type: String,
@@ -19,4 +21,4 @@ const TagSchema = new Schema<ITag>(
 	}
 );
 
-export default mongoose.model<ITag>('Tag', TagSchema);
+export default mongoose.model<TagModel>('Tag', TagSchema);

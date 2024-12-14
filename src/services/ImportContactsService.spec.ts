@@ -1,27 +1,17 @@
 import Contact from "@schemas/Contact";
 import Tag from "@schemas/Tag";
-import mongoose from "mongoose";
 import { Readable } from "stream";
+import MongoMock from "utils/tests/MongoMock";
 import { ImportContactsService } from "./ImportContactsService";
 
 describe('MongoDB Connection', () => {
 	beforeAll(async () => {
-		const mongo_uri = global as typeof globalThis & {
-			__MONGO_URI__: string;
-		};
-
-		if (!mongo_uri.__MONGO_URI__) {
-			throw new Error('MongoDB server not initialized');
-		}
-
-		await mongoose.connect(mongo_uri.__MONGO_URI__, {
-			autoIndex: true,
-		});
+		await MongoMock.connect();
 	});
 
 	afterAll(async () => {
 		// Fecha a conexão após os testes
-		await mongoose.disconnect();
+		await MongoMock.disconnect();
 	});
 
 	beforeEach(async () => {
@@ -41,16 +31,18 @@ describe('MongoDB Connection', () => {
 
 		const createdTags = await Tag.find({}).lean();
 
-		expect(createdTags).toEqual(
-			expect.arrayContaining([
-				expect.objectContaining({
-					title: 'iptu',
-				}),
-				expect.objectContaining({
-					title: 'alerta',
-				}),
-			])
-		);
+		const normalizedTags = await createdTags.map(tag => ({
+			title: tag.title,
+		}));
+
+		expect(normalizedTags).toEqual([
+			expect.objectContaining({
+				title: 'iptu',
+			}),
+			expect.objectContaining({
+				title: 'alerta',
+			}),
+		]);
 
 		const createdTagsIds = createdTags.map(tag => tag._id);
 
@@ -75,7 +67,7 @@ describe('MongoDB Connection', () => {
 		]);
 
 		const importContacts = new ImportContactsService();
-		
+
 		await Tag.create({ title: 'iptu' });
 
 		await importContacts.run(contactsFileStream, ['iptu', 'alerta']);

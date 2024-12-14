@@ -1,5 +1,8 @@
-import { SendMessageService } from '@services/SendMessageService';
+import { CreateMessageService } from '@services/CreateMessageService';
+import { ImportContactsService } from '@services/ImportContactsService';
 import { Router } from 'express';
+import fs from 'fs';
+import path from 'path';
 
 const routes = Router();
 
@@ -9,12 +12,29 @@ routes.get('/status', async (req, res) => {
 	});
 });
 
+routes.post('/contacts/import', async (req, res) => {
+	const { tags } = req.body;
+
+	const contactsReadStream = fs.createReadStream(
+		path.resolve(__dirname, '..', 'tmp', 'contacts.csv'),
+	);
+
+	const importContacts = new ImportContactsService();
+
+	await importContacts.run(contactsReadStream, tags);
+
+	res.send();
+});
+
 routes.post('/messages', async (req, res) => {
-	const sendMessage = new SendMessageService();
+	const { subject, body, tags } = req.body;
+	const createMessage = new CreateMessageService();
 
-	await sendMessage.run();
+	const messageData = { subject, body };
 
-	res.json({ ok: true });
-})
+	const message = await createMessage.run(messageData, tags);
+
+	res.status(201).json(message);
+});
 
 export default routes;

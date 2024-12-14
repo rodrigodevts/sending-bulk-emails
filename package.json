@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
-  "type": "module",
   "scripts": {
     "build": "tsc",
     "dev": "tsx watch ./src/server.ts",
+    "queue": "tsx watch ./src/queueServer.ts",
     "docker:up": "docker run --name mongo-test -p 27017:27017 -d mongo",
     "docker:down": "docker stop mongo-test && docker rm mongo-test",
     "test": "jest"
@@ -14,15 +14,16 @@
   "devDependencies": {
     "@eslint/js": "^9.16.0",
     "@types/express": "^5.0.0",
+    "@types/ioredis-mock": "^8.2.5",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.10.1",
+    "@types/redis-mock": "^0.17.3",
     "eslint": "^9.16.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
     "globals": "^15.13.0",
     "jest": "^29.7.0",
     "prettier": "^3.4.2",
-    "save-exact": "^1.0.1",
     "sucrase": "^3.35.0",
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
@@ -34,10 +35,15 @@
   "dependencies": {
     "@aws-sdk/client-ses": "^3.699.0",
     "@shelf/jest-mongodb": "^4.3.2",
+    "bull": "^4.16.4",
     "csv-parse": "^5.6.0",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "ioredis": "^5.4.1",
+    "ioredis-mock": "^8.9.0",
     "mongodb": "^6.11.0",
-    "mongoose": "^8.8.4"
+    "mongoose": "^8.8.4",
+    "redis": "^4.7.0",
+    "reflect-metadata": "^0.2.2"
   }
 }

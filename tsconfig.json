@@ -8,6 +8,15 @@
       "@services/*": [
         "services/*"
       ],
+      "@utils/*": [
+        "utils/*"
+      ],
+      "@config/*": [
+        "config/*"
+      ],
+      "@libs/*": [
+        "libs/*"
+      ],
       "@schemas/*": [
         "schemas/*"
       ]

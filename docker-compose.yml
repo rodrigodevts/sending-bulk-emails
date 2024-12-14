@@ -1,0 +1,80 @@
+version: '3.6'
+
+networks:
+  sbe-network:
+    driver: bridge
+
+services:
+  sbe-api:
+    build: .
+    container_name: sbe-api
+    volumes:
+      - .:/home/node/api
+    environment:
+      - MONGO_URL=sbe-mongo
+      - REDIS_URL=sbe-redis
+    depends_on:
+      - sbe-mongo
+      - sbe-redis
+    networks:
+      - sbe-network
+    links:
+      - sbe-mongo
+      - sbe-redis
+    command: yarn dev
+    ports:
+      - 3333:3333
+
+  sbe-queue:
+    build: .
+    volumes:
+      - .:/home/node/api
+    environment:
+      - MONGO_URL=sbe-mongo
+      - REDIS_URL=sbe-redis
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+    depends_on:
+      - sbe-mongo
+      - sbe-redis
+    networks:
+      - sbe-network
+    links:
+     - sbe-mongo
+     - sbe-redis
+    container_name: sbe-queue
+    command: yarn queue
+
+  sbe-mongo:
+    image: bitnami/mongodb:latest
+    container_name: sbe-mongo
+    restart: always
+    environment:
+      - ALLOW_EMPTY_PASSWORD=no
+      - MONGODB_USERNAME=${MONGO_USER}
+      - MONGODB_PASSWORD=${MONGO_PASS}
+      - MONGODB_DATABASE=${MONGO_DB}
+      - MONGODB_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD}
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/bitnami
+    networks:
+      - sbe-network
+
+  sbe-redis:
+    image: bitnami/redis:latest
+    container_name: sbe-redis
+    restart: always
+    environment:
+      - ALLOW_EMPTY_PASSWORD=no
+      - REDIS_PASSWORD=${REDIS_PASS}
+    ports:
+      - "6379:6379"
+    volumes:
+      - /tmp/redis:/bitnami/redis/data
+    networks:
+      - sbe-network
+
+volumes:
+  mongo_data:
