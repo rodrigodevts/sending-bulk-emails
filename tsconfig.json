@@ -2,23 +2,20 @@
   "compilerOptions": {
     "target": "ES2022",
     "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "module": "commonjs",
     "baseUrl": "./src",
     "paths": {
-      "@services/*": [
-        "services/*"
+      "@modules/*": [
+        "modules/*"
       ],
-      "@utils/*": [
-        "utils/*"
+      "@shared/*": [
+        "shared/*"
       ],
-      "@config/*": [
-        "config/*"
-      ],
-      "@libs/*": [
-        "libs/*"
-      ],
-      "@schemas/*": [
-        "schemas/*"
+      "@configs/*": [
+        "configs/*"
       ]
     },
     "outDir": "./dist",

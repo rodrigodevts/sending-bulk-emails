@@ -5,10 +5,12 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "dev": "tsx watch ./src/server.ts",
-    "queue": "tsx watch ./src/queueServer.ts",
+    "dev": "tsx watch src/shared/infra/http/server.ts",
+    "dev:queue": "tsx watch src/shared/infra/queue/runner.ts",
     "docker:up": "docker run --name mongo-test -p 27017:27017 -d mongo",
     "docker:down": "docker stop mongo-test && docker rm mongo-test",
+    "start:server": "node dist/shared/infra/http/server.js",
+    "start:queue": "node dist/shared/infra/queue/runner.js",
     "test": "jest"
   },
   "devDependencies": {
@@ -44,6 +46,7 @@
     "mongodb": "^6.11.0",
     "mongoose": "^8.8.4",
     "redis": "^4.7.0",
-    "reflect-metadata": "^0.2.2"
+    "reflect-metadata": "^0.2.2",
+    "tsyringe": "^4.8.0"
   }
 }

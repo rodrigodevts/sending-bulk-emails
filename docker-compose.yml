@@ -43,7 +43,7 @@ services:
      - sbe-mongo
      - sbe-redis
     container_name: sbe-queue
-    command: yarn queue
+    command: yarn dev:queue
 
   sbe-mongo:
     image: bitnami/mongodb:latest
