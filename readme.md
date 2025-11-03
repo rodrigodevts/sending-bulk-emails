@@ -27,9 +27,6 @@ RN (Regras de Negócio)
 [x]Recuperar um item de dentro da fila do Redis;
 [x]Processar o item enviando o e-mail;
 
-# Precisamos criar um mock de E-mail e do Redis
-
-
 # Docker Containers Errors
 - Para problemas de permissões na pasta tmp/redis, ou tmp/mongo, rodar o comando
 `sudo chown -R 1001:1001 /tmp/redis`
